@@ -1,6 +1,8 @@
 # idraiske-Order-Microservice
 Idraiske Order Microservice for Idraiske Food delivery application
-
+- Responsibility:
+  - Save all the information of the restaurant's details, and user details from where to order pickup to where to order has to be served, into the MongoDB database
+  - Respond to Endpoint to save order in the database.
 - Technologies: 
   - Microservice Architecture
   - RestAPI
@@ -9,9 +11,6 @@ Idraiske Order Microservice for Idraiske Food delivery application
   - Spring Boot
   - Lombok
   - Eureka Client
-- Responsibility: 
-  - Save all the information of the restaurant's details, and user details from where to order pickup to where to order has to be served, into the MongoDB database
-  - Respond to Endpoint to save order in the database.
 - To Run the Microservice:
   1. Turn on MongoDB Atlas (I use MongoDB Compass to monitor collections of the database): Open a terminal, run these commands in order:
     - brew services start mongodb/brew/mongodb-community
