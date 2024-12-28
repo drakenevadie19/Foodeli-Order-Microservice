@@ -7,14 +7,10 @@ eureka:
       defaultZone: http://eureka-0.eureka-service.default.svc.cluster.local:8761/eureka
 #      defaultZone: http://localhost:8761/eureka/
 
-#spring:
-#  data:
-#    mongodb:
-#      uri:  mongodb://localhost:27017/orderdb
-#      host: localhost
-#      port: 27017
-#      database: orderdb
-#      repositories:
-#        enabled: true
+spring:
+  data:
+    mongodb:
+      repositories:
+        enabled: true
 
 
