@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +14,9 @@ public class OrderDTO {
 
     private Integer orderId;
     private List<FoodItemsDTO> foodItemsList;
-    private Restaurant restaurant;
-    private UserDTO userDTO;
+    private Integer restaurantId;
+    private Integer userId;
+    private Date timestamp;
+    private BigDecimal price;
 
 }

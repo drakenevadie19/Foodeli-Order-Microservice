@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RestController
 @RequestMapping("/order")
 @CrossOrigin
@@ -25,4 +27,13 @@ public class OrderController {
         return new ResponseEntity<>(orderSavedInDB, HttpStatus.CREATED);
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAll());
+    }
+
+    @GetMapping("/u/{userId}")
+    public ResponseEntity<List<OrderDTO>> getAllOrdersForUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(orderService.getAllOrdersOfUser(userId));
+    }
 }

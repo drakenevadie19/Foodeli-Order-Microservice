@@ -2,13 +2,14 @@ package com.codedecode.order.service;
 
 import com.codedecode.order.dto.OrderDTO;
 import com.codedecode.order.dto.OrderDTOFromFE;
-import com.codedecode.order.dto.UserDTO;
 import com.codedecode.order.entity.Order;
 import com.codedecode.order.mapper.OrderMapper;
 import com.codedecode.order.repo.OrderRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -28,7 +29,7 @@ public class OrderService {
         int newOrderId = sequenceGenerator.generateNextOrderId();
 
         // Get user details from given userId from RequestBody
-        UserDTO userDetails = fetchUserDetailsFromUserId(orderDetails.getUserId());
+//        UserDTO userDetails = fetchUserDetailsFromUserId(orderDetails.getUserId());
 
         // The task here is to add list of items and restaurant
         // For userId, get entire user details, then add it in order Entity
@@ -36,9 +37,10 @@ public class OrderService {
         //  1. orderId = generate from above function
         //  2. foodItemsList = getting from RequestBody
         //  3. restaurant = getting from RequestBody
-        //  4. UserDTo = user details, which is NOT gotten from RequestBody (RequestBody only have userId
-        //      => Have to get that user details based on userId (query)
-        Order orderToBeSaved = new Order(newOrderId, orderDetails.getFoodItemsList(), orderDetails.getRestaurant(), userDetails);
+        //  4. userId = getting from RequestBody
+        //  5. timestamp = getting from RequestBody
+        //  6. price = getting from RequestBody
+        Order orderToBeSaved = new Order(newOrderId, orderDetails.getFoodItemsList(), orderDetails.getRestaurantId(), orderDetails.getUserId(), orderDetails.getTimestamp(), orderDetails.getPrice());
 
         // Save created order to MongoDB
         orderRepo.save(orderToBeSaved);
@@ -46,8 +48,28 @@ public class OrderService {
         return OrderMapper.INSTANCE.mapOrderToOrderDTO(orderToBeSaved);
     }
 
-    private UserDTO fetchUserDetailsFromUserId(Integer userId) {
-        // Use RestTemplate to access Into userInfo MS to access to userInfo MySQL DB to extract all info of user
-        return restTemplate.getForObject("http://USER-SERVICE/user/fetchUserById/"+userId, UserDTO.class);
+//    private UserDTO fetchUserDetailsFromUserId(Integer userId) {
+//        // Use RestTemplate to access Into userInfo MS to access to userInfo MySQL DB to extract all info of user
+//        return restTemplate.getForObject("http://USER-SERVICE/user/fetchUserById/" + userId, UserDTO.class);
+//    }
+
+    public List<OrderDTO> getAll() {
+        List<Order> result = orderRepo.findAll();
+        List<OrderDTO> result1 = new ArrayList<>();
+        for (int i=0;i<result.size();i++) {
+            result1.add(OrderMapper.INSTANCE.mapOrderToOrderDTO(result.get(i)));
+        }
+
+        return result1;
+    }
+
+    public List<OrderDTO> getAllOrdersOfUser(Integer userId) {
+        List<Order> result = orderRepo.findByUserId(userId);
+        List<OrderDTO> result1 = new ArrayList<>();
+        for (int i=0;i<result.size();i++) {
+            result1.add(OrderMapper.INSTANCE.mapOrderToOrderDTO(result.get(i)));
+        }
+
+        return result1;
     }
 }

@@ -12,5 +12,6 @@ spring:
     mongodb:
       repositories:
         enabled: true
+      database: orderdb
 
 
