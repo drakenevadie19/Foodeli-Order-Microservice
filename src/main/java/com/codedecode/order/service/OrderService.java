@@ -40,12 +40,12 @@ public class OrderService {
         //  4. userId = getting from RequestBody
         //  5. timestamp = getting from RequestBody
         //  6. price = getting from RequestBody
-        Order orderToBeSaved = new Order(newOrderId, orderDetails.getFoodItemsList(), orderDetails.getRestaurantId(), orderDetails.getUserId(), orderDetails.getTimestamp(), orderDetails.getPrice());
+        Order orderToBeSaved = new Order(null, newOrderId, orderDetails.getFoodItemsList(), orderDetails.getRestaurantId(), orderDetails.getUserId(), orderDetails.getTimestamp(), orderDetails.getPrice());
 
         // Save created order to MongoDB
         orderRepo.save(orderToBeSaved);
 
-        return OrderMapper.INSTANCE.mapOrderToOrderDTO(orderToBeSaved);
+        return OrderMapper.INSTANCE.mapOrderToOrderDTO(orderRepo.findByOrderId(newOrderId));
     }
 
 //    private UserDTO fetchUserDetailsFromUserId(Integer userId) {
@@ -55,6 +55,8 @@ public class OrderService {
 
     public List<OrderDTO> getAll() {
         List<Order> result = orderRepo.findAll();
+//        result.forEach(o -> System.out.println("DEBUG Order = " + o));
+
         List<OrderDTO> result1 = new ArrayList<>();
         for (int i=0;i<result.size();i++) {
             result1.add(OrderMapper.INSTANCE.mapOrderToOrderDTO(result.get(i)));
@@ -71,5 +73,15 @@ public class OrderService {
         }
 
         return result1;
+    }
+
+    public boolean deleteAnOrderById(String id) {
+        try {
+            orderRepo.deleteById(id);
+        } catch (Error e) {
+            return false;
+        }
+
+        return true;
     }
 }

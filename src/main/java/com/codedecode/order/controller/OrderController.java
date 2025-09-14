@@ -36,4 +36,10 @@ public class OrderController {
     public ResponseEntity<List<OrderDTO>> getAllOrdersForUser(@PathVariable Integer userId) {
         return ResponseEntity.ok(orderService.getAllOrdersOfUser(userId));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAnOrder(@PathVariable String id) {
+        boolean result = orderService.deleteAnOrderById(id);
+        return ResponseEntity.ok(result);
+    }
 }
