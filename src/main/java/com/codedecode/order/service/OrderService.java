@@ -9,6 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
+
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -22,6 +31,12 @@ public class OrderService {
 
     @Autowired
     RestTemplate restTemplate;
+
+//    private final JavaMailSender javaMailSender;
+//
+//    public OrderService(JavaMailSender javaMailSender) {
+//        this.javaMailSender = javaMailSender;
+//    }
 
     public OrderDTO saveOrderInDB(OrderDTOFromFE orderDetails) {
 
@@ -55,7 +70,6 @@ public class OrderService {
 
     public List<OrderDTO> getAll() {
         List<Order> result = orderRepo.findAll();
-//        result.forEach(o -> System.out.println("DEBUG Order = " + o));
 
         List<OrderDTO> result1 = new ArrayList<>();
         for (int i=0;i<result.size();i++) {
@@ -84,4 +98,38 @@ public class OrderService {
 
         return true;
     }
+
+    public List<OrderDTO> getOrdersBetween(Integer userId, Date start, Date end) {
+        List<Order> result = orderRepo.findByUserIdAndTimestampBetween(userId, start, end);
+        List<OrderDTO> result1 = new ArrayList<>();
+        for (int i=0;i<result.size();i++) {
+            result1.add(OrderMapper.INSTANCE.mapOrderToOrderDTO(result.get(i)));
+        }
+
+        return result1;
+    }
+
+//    @Async
+//    public void sendFormattedEmail(ContactRequest request) throws MessagingException {
+//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+//
+//        helper.setTo("thanhnguyen14.gers@gmail.com"); // Replace with your receiving email
+//        helper.setSubject("New Contact Submission from " + request.getFullName());
+//        helper.setFrom("williamdo25032003@gmail.com"); // Or keep it fixed for security reasons
+//
+//        String htmlContent = String.format(
+//                "<h2>New Message from Portfolio Site</h2>" +
+//                        "<p><strong>Name:</strong> %s</p>" +
+//                        "<p><strong>Email:</strong> %s</p>" +
+//                        "<p><strong>Message:</strong></p>" +
+//                        "<p>%s</p>",
+//                request.getFullName(),
+//                request.getEmail(),
+//                request.getMessage().replace("\n", "<br>")
+//        );
+//
+//        helper.setText(htmlContent, true);
+//        javaMailSender.send(mimeMessage);
+//    }
 }

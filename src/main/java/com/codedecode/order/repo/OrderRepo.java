@@ -15,4 +15,8 @@ public interface OrderRepo extends MongoRepository<Order, String> {
 
     void deleteByOrderId(Integer orderId);
 
+    List<Order> findByTimestampBetween(Date start, Date end);
+
+    List<Order> findByUserIdAndTimestampBetween(Integer userId, Date start, Date end);
+
 }
