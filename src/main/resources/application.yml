@@ -3,9 +3,21 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: dev
   application:
     name: ORDER-SERVICE
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: order-service
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      properties:
+        acks: all
+        enable.idempotence: true
 #  data:
 #    mongodb:
 #      uri: mongodb://localhost:27017/orderdb

@@ -2,13 +2,19 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-
 spring:
   data:
     mongodb:
-#      uri:  mongodb://localhost:27017/orderdb
-#      host: localhost
-#      port: 27017
+      uri:  mongodb+srv://thanhnguyen14gers:JZUNryCpzhPSeNZn@cluster0.mk1vm.mongodb.net/?appName=Cluster0
       database: orderdb
       repositories:
         enabled: true
+#spring:
+#  data:
+#    mongodb:
+##      uri:  mongodb://localhost:27017/orderdb
+##      host: localhost
+##      port: 27017
+#      database: orderdb
+#      repositories:
+#        enabled: true

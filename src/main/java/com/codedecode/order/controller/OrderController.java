@@ -52,6 +52,7 @@ public class OrderController {
     @PostMapping("/saveOrder")
     public Result saveOrder(@RequestBody OrderDTOFromFE orderDetails) { // Request body will be order details we get from FE
         // Save Order details from FE to DB
+        System.out.println("Saving body" + orderDetails);
         OrderDTO orderSavedInDB =  orderService.saveOrderInDB(orderDetails);
         return new Result(true, StatusCode.SUCCESS, "Retrieve All Order successful", orderSavedInDB);
     }
