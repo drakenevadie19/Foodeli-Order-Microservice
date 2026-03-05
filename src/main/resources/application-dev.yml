@@ -10,7 +10,7 @@ eureka:
 spring:
   data:
     mongodb:
-      uri:  mongodb+srv://thanhnguyen14gers:JZUNryCpzhPSeNZn@cluster0.mk1vm.mongodb.net/?appName=Cluster0
+#      uri:  mongodb+srv://thanhnguyen14gers:JZUNryCpzhPSeNZn@cluster0.mk1vm.mongodb.net/?appName=Cluster0
       database: orderdb
       repositories:
         enabled: true
